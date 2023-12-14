@@ -3,7 +3,7 @@ NAME 		= so_long
 CC 			= cc
 RM			= rm -f
 
-#CFLAGS 		+= -Wall -Wextra -Werror -g
+CFLAGS 		= -Wall -Wextra -Werror -g
 CLINKS		= -ldl -lglfw -pthread -lm
 
 MLX			= minilibx
@@ -12,7 +12,13 @@ LIBMLX 		= $(MLX)/libmlx42.a
 FT			= libft
 LIBFT		= $(FT)/libft.a
 
-SRC 		= src/main.c
+SRC 		= src/main.c\
+			  ft_printf/ft_printf.c\
+			  ft_printf/ft_printfaddon.c\
+			  get_next_line/get_next_line.c\
+			  get_next_line/get_next_line_utils.c
+
+
 OBJ 		= $(SRC:.c=.o)
 
 all: $(NAME)
@@ -20,7 +26,7 @@ all: $(NAME)
 bonus: $(NAME)
 
 $(NAME): $(LIBMLX) $(LIBFT) $(OBJ)
-	$(CC) -o $(NAME) $(OBJ) $(LIBFT) $(LIBMLX) $(CLINKS)
+	$(CC) -g -o $(NAME) $(OBJ) $(LIBFT) $(LIBMLX) $(CLINKS)
 
 $(LIBMLX): $(MLX)
 	cmake $(MLX) -B $(MLX)	
@@ -38,15 +44,19 @@ $(FT):
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-clea:n
-	$(RM) $(LIBMLX)
+clean :
+	$(RM) $(OBJ)
+	$(MAKE) clean -C $(FT)
+
+fclean : clean
+	$(RM) $(NAME)
 	$(RM) $(LIBFT)
-	$(RM) $(NAMiiiE)
+	$(RM) $(LIBMLX)
 
 clear: fclean
 	$(RM) -r $(FT)
-	$(RM) -r $(MLX) 
+	$(RM) -r $(MLX)
 
 re: fclean all
 
-.PHONY:		all bonus clear clean fclean re
+.PHONY:		all bonus clean clear fclean re
