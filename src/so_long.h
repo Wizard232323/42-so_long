@@ -6,7 +6,7 @@
 /*   By: ekoubbi <ekoubbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 16:59:20 by ekoubbi           #+#    #+#             */
-/*   Updated: 2023/12/14 02:01:13 by ekoubbi          ###   ########.fr       */
+/*   Updated: 2024/01/17 17:21:47 by ekoubbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,6 @@
 # include "../ft_printf/ft_printf.h"
 # include <fcntl.h>
 
-# define WIDTH 512
-# define HEIGHT 512
-
 typedef struct s_texture
 {
 	mlx_texture_t	*player;
@@ -36,8 +33,18 @@ typedef struct s_texture
 	mlx_image_t		*img_wall;
 	mlx_texture_t	*ground;
 	mlx_image_t		*img_ground;
+	mlx_texture_t	*pat;
+	mlx_image_t		*img_pat;
 
 }		t_texture;
+
+typedef struct s_check
+{
+	int	item;
+	int	exit;
+	int	checked;
+
+}	t_check;
 
 typedef struct game
 {
@@ -49,21 +56,17 @@ typedef struct game
 	char		**map;
 	int			map_height;
 	int			map_width;
-	int			control; 
 	int			x_player;
 	int			y_player;
+	int			move;
 	mlx_t		*mlx;
+	t_check		check;
 	t_texture	img;
-	
+
 }	t_game;
 
-typedef	struct s_player
-{
-	int	x;	
-	int	y;
-
-}		s_player;
-
+void	fill(char **tab, int x, int y);
+int		is_possible(t_game game);
 void	init_game(char **argv, t_game *game);
 void	read_map(t_game *game);
 void	scan_map(t_game *game);
@@ -72,11 +75,18 @@ int		is_not_rectangle(t_game *game);
 int		control_char(t_game *game);
 int		control_name(t_game *game);
 char	*check_error(t_game *game);
-void	free_error(t_game *game);
-void	ft_hook(void *param);
+void	free_error(t_game *game, int free_texture);
+void	ft_hook(mlx_key_data_t keydata, void *param);
 void	player_pos(t_game *game);
 void	start_game(t_game *game);
 void	texture(t_game *game);
-bool	mlx_loop_hook(mlx_t* mlx, void (*f)(void*), void* param);
+void	create_map(t_game *game);
+void	up(t_game *game);
+void	down(t_game *game);
+void	left(t_game *game);
+void	right(t_game *game);
+void	eat_item(t_game *game);
+void	free_tab(char **tab);
+int		scan_tab(char **tab);
 
 #endif

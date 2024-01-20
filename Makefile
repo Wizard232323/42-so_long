@@ -15,9 +15,11 @@ LIBFT		= $(FT)/libft.a
 SRC 		= src/main.c\
 			  ft_printf/ft_printf.c\
 			  ft_printf/ft_printfaddon.c\
-			  get_next_line/get_next_line.c\
-			  get_next_line/get_next_line_utils.c
-
+			  src/control_map.c\
+			  src/map_process.c\
+			  src/player_collision.c\
+			  src/free_game.c\
+			  src/control_propagation.c
 
 OBJ 		= $(SRC:.c=.o)
 
